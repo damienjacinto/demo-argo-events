@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
+  name: argo-event-slack
+  namespace: argo-events
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /launch
+        backend:
+          service:
+            name: slack-eventsource-svc
+            port:
+              number: 12000
+        pathType: ImplementationSpecific
